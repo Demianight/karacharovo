@@ -1,0 +1,6 @@
+services:
+  app:
+    build: ../backend/.
+    # command: command
+    ports:
+      - 8000:8000
