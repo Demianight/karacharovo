@@ -1,11 +1,24 @@
-from django.shortcuts import render
-from django.http import HttpRequest
-from .models import Title
+from rest_framework import mixins, viewsets
+from .models import Title, Place, Human
+from .serializers import TitleSerializer, PlaceSerializer, HumanSerializer
 
 
-def index(request: HttpRequest):
-    titles = Title.objects.all()
-    context = {
-        'titles': titles
-    }
-    return render(request, 'index.html', context)
+class AbstractViewset(
+    viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.ListModelMixin
+):
+    pass
+
+
+class TitleViewset(AbstractViewset):
+    queryset = Title.objects.all()
+    serializer_class = TitleSerializer
+
+
+class PlaceViewset(AbstractViewset):
+    queryset = Place.objects.all()
+    serializer_class = PlaceSerializer
+
+
+class HumanViewset(AbstractViewset):
+    queryset = Human.objects.all()
+    serializer_class = HumanSerializer
